@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Super!! Logged In{% endblock %}
+{% block head %}Have a nice day!!{% endblock %}
+{% block content %}
+    <p>Welcome {{ user.username }} !!!</p>
+    <p> {% if user.account.admin_approval %}Admin is Approved {% else %} Admin has to approve {% endif %}</p>
+    <a href="/logout/">Logout</a>
+    <a href="/edit/">Edit</a>
+{% endblock %}
