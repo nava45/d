@@ -52,12 +52,8 @@ def edit(request):
     curr_user = request.user
     if request.method == 'POST':
         form = RegistrationForm(request.POST, user=curr_user)
+        
         if form.is_valid():
-#             password = form.cleaned_data['password1']
-#             if password:
-#                 curr_user.set_password(password)
-#                 curr_user.save()
-            
             curr_user.account.first_name = form.cleaned_data['first_name']
             curr_user.account.middle_name = form.cleaned_data['middle_name']
             curr_user.account.last_name = form.cleaned_data['last_name']
@@ -91,5 +87,5 @@ def home(request):
     return render(
                   request,
                   'registration/home.html',
-                  {'user': request.user}
+                  {'user': curr_user }
                   )
