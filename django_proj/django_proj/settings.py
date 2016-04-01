@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'registration',
+    'nocaptcha_recaptcha',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -126,3 +127,5 @@ STATIC_URL = '/static/'
 import django.contrib.auth
 django.contrib.auth.LOGIN_URL = '/'
 
+NORECAPTCHA_SITE_KEY = '6LflRhwTAAAAAGKtEsvKzrMVIUsapNHQipm6twUZ'
+NORECAPTCHA_SECRET_KEY = '6LflRhwTAAAAAGVZ79GTP6QXjk7KynBFBmnVUpJt'

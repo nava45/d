@@ -3,6 +3,8 @@ from django.utils.translation import ugettext_lazy as _
 from registration.models import Account
 from django.contrib.auth.models import User
 
+from nocaptcha_recaptcha.fields import NoReCaptchaField
+
 
 class RegistrationForm(forms.Form):
  
@@ -21,13 +23,20 @@ class RegistrationForm(forms.Form):
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(required=True, max_length=30)), label=_("Email address"))
     phone_number = forms.RegexField(regex=r'^\+?1?\d{9,15}$', 
                                     error_messages={ 'invalid': _("Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.") })
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs=dict(required=True, max_length=30, render_value=False)), label=_("Password"))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs=dict(required=True, max_length=30, render_value=False)), label=_("Password (again)"))
- 
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs=dict(required=True,
+                                                                      max_length=30,
+                                                                      render_value=False)),
+                                label=_("Password"))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs=dict(required=True,
+                                                                      max_length=30,
+                                                                      render_value=False)),
+                                label=_("Password (again)"))
+    captcha = NoReCaptchaField()
+    
     def __init__(self, *args, **kw):
         self.user_obj = kw.pop('user', None)
         super(RegistrationForm, self).__init__(*args, **kw)
-        if not self.user_obj.is_anonymous():
+        if self.user_obj and not self.user_obj.is_anonymous():
             self.fields["first_name"].initial = self.user_obj.account.first_name
             self.fields["middle_name"].initial = self.user_obj.account.middle_name
             self.fields["last_name"].initial = self.user_obj.account.last_name
