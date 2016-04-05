@@ -37,19 +37,17 @@ class RegistrationForm(forms.Form):
         self.user_obj = kw.pop('user', None)
         super(RegistrationForm, self).__init__(*args, **kw)
         if self.user_obj and not self.user_obj.is_anonymous():
-            self.fields["first_name"].initial = self.user_obj.account.first_name
-            self.fields["middle_name"].initial = self.user_obj.account.middle_name
-            self.fields["last_name"].initial = self.user_obj.account.last_name
-            self.fields["email"].initial = self.user_obj.account.email
-            self.fields["phone_number"].initial = self.user_obj.account.mobile_no
-            
-            #import ipdb; ipdb.set_trace()
-            # It is not mandatory to update password
-            self.fields['password1'].required = False
-            self.fields['password2'].required = False
-            
             del self.fields['password1']
             del self.fields['password2']
+            del self.fields['email']
+            try:
+                self.fields["first_name"].initial = self.user_obj.account.first_name
+                self.fields["middle_name"].initial = self.user_obj.account.middle_name
+                self.fields["last_name"].initial = self.user_obj.account.last_name
+                self.fields["phone_number"].initial = self.user_obj.account.mobile_no
+               
+            except Account.DoesNotExist:
+                pass
  
     def clean_email(self):
         try:

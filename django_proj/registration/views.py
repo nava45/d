@@ -64,6 +64,7 @@ def register(request):
 @login_required
 def edit(request):
     curr_user = request.user
+    print curr_user.account
     if request.method == 'POST':
         form = RegistrationForm(request.POST, user=curr_user)
         
@@ -72,7 +73,7 @@ def edit(request):
             curr_user.account.middle_name = form.cleaned_data['middle_name']
             curr_user.account.last_name = form.cleaned_data['last_name']
             curr_user.account.mobile_no = form.cleaned_data['phone_number']
-            curr_user.account.email = form.cleaned_data['email']
+            #curr_user.account.email = form.cleaned_data['email']
             curr_user.account.save()
             
             return redirect('/register/success/')
