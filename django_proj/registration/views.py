@@ -1,19 +1,37 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
-
-from registration.forms import RegistrationForm
-from registration.models import Account
+from django.contrib.auth import logout, login
 from django.contrib.auth.models import User
-from django.contrib.auth.views import login
+
+import base64
+import hashlib
+
+from registration.forms import RegistrationForm, LoginForm
+from registration.models import Account
 
 
-def login_page(request):
-    if request.user.is_anonymous():
-        return login(request)
-    else:
+def email_to_username(email):
+    return base64.urlsafe_b64encode(hashlib.sha256(email.lower()).digest())[:30]
+
+
+def login_page(request, _next="/home/"):
+    if not request.user.is_anonymous():
         return redirect('/home/')
+    
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            login(request, form.get_user())
+            return redirect(_next)
+    else:
+        form = LoginForm()
+        
+    return render(
+                  request,
+                  'registration/login.html',
+                  {'form': form, 'next': _next, 'title': "Please Login"}
+                  )
 
 @csrf_protect
 def register(request):
@@ -22,11 +40,13 @@ def register(request):
         return redirect('/home/')
     
     if request.method == 'POST':
+        title = "Update Profile"
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            user_name = form.cleaned_data['user_name']
+            email = form.cleaned_data['email']
             password = form.cleaned_data['password1']
-            user = User.objects.create(username=user_name)
+            user = User.objects.create(username=email_to_username(email),
+                                       email=email)
             user.set_password(password)
             user.save()
             account = Account.objects.create(
@@ -39,12 +59,13 @@ def register(request):
             )
             return redirect('/register/success/')
     else:
+        title = "Create New Profile"
         form = RegistrationForm()
    
     return render(
                   request,
                   'registration/register.html',
-                  {'form': form, 'title': "New Registration"}
+                  {'form': form, 'title': title}
                   )
 
 @login_required

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'registration',
     'nocaptcha_recaptcha',
 ]
@@ -52,6 +53,13 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+GOOGLE_OAUTH2_CLIENT_ID      = '1029460632017-ae7a2h34ujn26ofaddt6abom5jf1lcn9.apps.googleusercontent.com'
+GOOGLE_OAUTH2_CLIENT_SECRET  = 'AxJMC8fLZpRXzQu3YxuZqvVZ'
+
 ROOT_URLCONF = 'django_proj.urls'
 
 TEMPLATES = [
@@ -66,11 +74,12 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+                'django.contrib.messages.context_processors.messages'
             ],
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'django_proj.wsgi.application'
 
@@ -129,3 +138,7 @@ django.contrib.auth.LOGIN_URL = '/'
 
 NORECAPTCHA_SITE_KEY = '6LflRhwTAAAAAGKtEsvKzrMVIUsapNHQipm6twUZ'
 NORECAPTCHA_SECRET_KEY = '6LflRhwTAAAAAGVZ79GTP6QXjk7KynBFBmnVUpJt'
+
+SITE_ID = 1
+
+
