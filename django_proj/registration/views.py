@@ -4,16 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, login
 from django.contrib.auth.models import User
 
-import base64
-import hashlib
-
 from registration.forms import RegistrationForm, LoginForm
 from registration.models import Account
-
-
-def email_to_username(email):
-    return base64.urlsafe_b64encode(hashlib.sha256(email.lower()).digest())[:30]
-
+from registration.utils import email_to_username
 
 def login_page(request, _next="/home/"):
     if not request.user.is_anonymous():

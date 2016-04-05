@@ -21,6 +21,7 @@ from registration.views import register, logout_page, register_success, home, \
 
 urlpatterns = [
     url(r'^acc/', include('allauth.urls')),
+    url(r'^rest/', include('rest.urls')),
     url(r'^$', login_page),
     url(r'^home/$', home),
     url(r'^edit/$', edit),
