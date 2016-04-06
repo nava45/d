@@ -64,7 +64,6 @@ def register(request):
 @login_required
 def edit(request):
     curr_user = request.user
-    print curr_user.account
     if request.method == 'POST':
         form = RegistrationForm(request.POST, user=curr_user)
         
