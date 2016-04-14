@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest',
     'registration',
     'nocaptcha_recaptcha',
+    'social.apps.django_app.default',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -54,12 +55,6 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-)
-
-GOOGLE_OAUTH2_CLIENT_ID      = '1029460632017-ae7a2h34ujn26ofaddt6abom5jf1lcn9.apps.googleusercontent.com'
-GOOGLE_OAUTH2_CLIENT_SECRET  = 'AxJMC8fLZpRXzQu3YxuZqvVZ'
 
 ROOT_URLCONF = 'django_proj.urls'
 
@@ -75,7 +70,9 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages'
+                'django.contrib.messages.context_processors.messages',
+                'social.apps.django_app.context_processors.backends',
+                'social.apps.django_app.context_processors.login_redirect',
             ],
         },
     },
@@ -137,9 +134,25 @@ STATIC_URL = '/static/'
 import django.contrib.auth
 django.contrib.auth.LOGIN_URL = '/'
 
-NORECAPTCHA_SITE_KEY = '6LflRhwTAAAAAGKtEsvKzrMVIUsapNHQipm6twUZ'
-NORECAPTCHA_SECRET_KEY = '6LflRhwTAAAAAGVZ79GTP6QXjk7KynBFBmnVUpJt'
+#NORECAPTCHA_SITE_KEY = '6LflRhwTAAAAAGKtEsvKzrMVIUsapNHQipm6twUZ'
+#NORECAPTCHA_SECRET_KEY = '6LflRhwTAAAAAGVZ79GTP6QXjk7KynBFBmnVUpJt'
+NORECAPTCHA_SITE_KEY = '6LchZh0TAAAAAG2Y_CmcPMkYCKp10KTGGnYoWtdo'
+NORECAPTCHA_SECRET_KEY = '6LchZh0TAAAAAMOcqVMrZNcjp7qBqxQnYOEAvGal'
 
 SITE_ID = 1
 
+AUTHENTICATION_BACKENDS = (
+   'social.backends.facebook.FacebookOAuth2',
+   'social.backends.google.GoogleOAuth2',
+   'social.backends.twitter.TwitterOAuth',
+   'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '906349592582-luq00avo4ufuhh2q4mss30ougbk0rec1.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '2eOWX5nBY2KGI2HzqXLS32UF'
+SOCIAL_AUTH_FACEBOOK_KEY = '1144912968886073'
+SOCIAL_AUTH_FACEBOOK_SECRET = '6ce78c1d986a216b9bdbdf5f37da3b35'
+
+
+SOCIAL_AUTH_ENABLED_BACKENDS = ('facebook', 'google')
 

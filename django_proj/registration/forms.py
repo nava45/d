@@ -9,13 +9,13 @@ from nocaptcha_recaptcha.fields import NoReCaptchaField
 
 class RegistrationForm(forms.Form):
  
-    first_name = forms.RegexField(regex=r'^[a-zA-Z\']+$', widget=forms.TextInput(attrs=dict(required=True, max_length=30)),
+    first_name = forms.RegexField(regex=r'^[a-zA-Z\']+$', widget=forms.TextInput(attrs=dict(required=False, max_length=30)),
                                   label=_("First Name"),
                                   error_messages={ 'invalid': _("This value must contain only letters.") })
     middle_name = forms.RegexField(regex=r'^[a-zA-Z\']+$', widget=forms.TextInput(attrs=dict(required=False, max_length=30)),
                                   label=_("Middle Name"),
                                   error_messages={ 'invalid': _("This value must contain only letters.") })
-    last_name = forms.RegexField(regex=r'^[a-zA-Z\']+$', widget=forms.TextInput(attrs=dict(required=True, max_length=30)),
+    last_name = forms.RegexField(regex=r'^[a-zA-Z\']+$', widget=forms.TextInput(attrs=dict(required=False, max_length=30)),
                                   label=_("Last Name"),
                                   error_messages={ 'invalid': _("This value must contain only letters.") })
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(required=True, max_length=30)), label=_("Email address"))

@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^edit/$', edit),
     url(r'^logout/$', logout_page),  
     url(r'^admin/', admin.site.urls),
+    url('', include('social.apps.django_app.urls', namespace='social')),
     url(r'^register/$', register),
     url(r'^register/success/$', register_success),
 ]
