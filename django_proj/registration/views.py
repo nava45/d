@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from registration.forms import RegistrationForm, LoginForm
 from registration.models import Account
 from registration.utils import email_to_username
+from django.http.response import HttpResponse
 
 def login_page(request, _next="/home/"):
     if not request.user.is_anonymous():
@@ -68,12 +69,15 @@ def edit(request):
         form = RegistrationForm(request.POST, user=curr_user)
         
         if form.is_valid():
-            curr_user.account.first_name = form.cleaned_data['first_name']
-            curr_user.account.middle_name = form.cleaned_data['middle_name']
-            curr_user.account.last_name = form.cleaned_data['last_name']
-            curr_user.account.mobile_no = form.cleaned_data['phone_number']
-            #curr_user.account.email = form.cleaned_data['email']
-            curr_user.account.save()
+            try:
+                curr_user.account.first_name = form.cleaned_data['first_name']
+                curr_user.account.middle_name = form.cleaned_data['middle_name']
+                curr_user.account.last_name = form.cleaned_data['last_name']
+                curr_user.account.mobile_no = form.cleaned_data['phone_number']
+                #curr_user.account.email = form.cleaned_data['email']
+                curr_user.account.save()
+            except Account.DoesNotExist:
+                return HttpResponse('The Account object does not exist for this user')
             
             return redirect('/register/success/')
     else:
